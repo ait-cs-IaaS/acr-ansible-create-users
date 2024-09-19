@@ -1,0 +1,14 @@
+---
+
+- name: Create users
+  ansible.builtin.user:
+    name: "{{ user.username }}"
+    createhome: "{{ user.createhome | default(true) }}"
+    group: "{{ user.group | default(omit) }}"
+    groups: "{{ user.groups | join(',') if user.groups is defined else omit }}"
+    password: "{{ user.password | default(omit) | password_hash('sha512', user.password_salt) }}"
+    shell: "{{ user.shell | default('/bin/bash') }}"
+  loop: "{{ user_list }}"
+  loop_control:
+    loop_var: user
+    label: "{{ user.username }}"
