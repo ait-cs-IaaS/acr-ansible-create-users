@@ -1,2 +1,4 @@
 ---
 user_list: []
+createhome: true
+shell: '/bin/bash'
